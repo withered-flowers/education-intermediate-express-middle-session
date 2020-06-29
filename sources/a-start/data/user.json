@@ -1,0 +1,14 @@
+[
+  {
+    "uname": "user",
+    "upass": "pass"
+  },
+  {
+    "uname": "user2",
+    "upass": "pass2"
+  },
+  {
+    "uname": "user3",
+    "upass": "pass3"
+  }
+]

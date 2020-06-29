@@ -1,0 +1,14 @@
+[
+  {
+    "uname": "user",
+    "upass": "$2b$12$R5FcL3AHVYwqqGSuVguVw.61owmj9YMANIk838CDWCmw4uwLs1b.u"
+  },
+  {
+    "uname": "user2",
+    "upass": "$2b$12$R5FcL3AHVYwqqGSuVguVw.x2.ePgoOmiSlAZ6IlfgEBkDWyLfXNEa"
+  },
+  {
+    "uname": "user3",
+    "upass": "$2b$12$R5FcL3AHVYwqqGSuVguVw.0upPy05yzy2M7W6sHtkdWh8UptHloni"
+  }
+]

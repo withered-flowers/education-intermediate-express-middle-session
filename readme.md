@@ -1,9 +1,9 @@
 ## Table of Content
 1. [Recap Express with Sequelize](#recap-express-with-sequelize)
 1. [Express Middleware](#express-middleware)
-  * [Session](#session)
+    * [Session](#session)
 1. [Toughening the Security](#toughening-the-security)
-  * [BCrypt](#bcrypt)
+    * [BCrypt](#bcrypt)
 1. [Referensi](#referensi)
 
 ## Recap Express with Sequelize
@@ -518,5 +518,5 @@ menggunakan `session` dan password `hashed` with `bcrypt`.
 Keep Learning !
 
 ## Referensi
-[ExpressJS Middleware, Okta](https://developer.okta.com/blog/2018/09/13/build-and-understand-express-middleware-through-examples)
-[ExpressJS - Router Documentation](https://expressjs.com/en/guide/routing.html)
+* [ExpressJS Middleware, Okta](https://developer.okta.com/blog/2018/09/13/build-and-understand-express-middleware-through-examples)
+* [ExpressJS - Router Documentation](https://expressjs.com/en/guide/routing.html)

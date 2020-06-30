@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 // Import bcrypt
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Import Reals
 const { User, Real } = require('./models/index.js');

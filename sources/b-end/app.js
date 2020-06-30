@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 
-const { User } = require('./models/index.js');
+const { PlainUser } = require('./models/index.js');
 
 const PORT = 3000;
 
@@ -41,7 +41,7 @@ app.post('/login', (req, res) => {
   //   form > input > id = user_name, name = user_name
   //   form > input > id = user_pass, name = user_pass
 
-  User.findOne({
+  PlainUser.findOne({
     where: {
       uname: req.body.user_name,
       upass: req.body.user_pass

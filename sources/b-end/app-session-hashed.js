@@ -4,8 +4,8 @@ const session = require('express-session');
 // Import bcrypt
 const bcrypt = require('bcryptjs');
 
-// Import Reals
-const { User, Real } = require('./models/index.js');
+// Import EncryptedUser
+const { PlainUser, EncryptedUser } = require('./models/index.js');
 
 const PORT = 3000;
 
@@ -74,7 +74,7 @@ app.post('/login', (req, res) => {
   // Kita akan melakukan SELECT untuk mengambil hashnya
   // dan meng-compare hashnya dengan yang dibuat oleh user ini.
 
-  Real.findOne({
+  EncryptedUser.findOne({
     where: {
       uname: req.body.user_name,
       // Where upassnya tidak digunakan

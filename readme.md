@@ -17,8 +17,8 @@ misalnya halaman login dan halaman utama.
 Pada pembelajaran ini kita tidak menggunakan `MVC` maupun `express.Router`
 untuk memperkecil *scope* pembelajaran kali ini yah !
 
-Diketahui kita memiliki 2 buah tabel bernama `Users` dan `Reals` pada database 
-sebagai berikut (keduanya memiliki kolom tabel yang sama):
+Diketahui kita memiliki 2 buah tabel bernama `PlainUsers` dan `EncryptedUsers` 
+pada database sebagai berikut (keduanya memiliki kolom tabel yang sama):
 
 | Kolom | Tipe         | Info                       |
 |:------|:-------------|:---------------------------|
@@ -27,7 +27,8 @@ sebagai berikut (keduanya memiliki kolom tabel yang sama):
 | upass | VARCHAR(255) | NOT NULL                   | 
 
 Diketahui pula pada saat pembuatan ini, sudah diberikan data dummy pada
-folder `data` sebagai populasi awal pada tabel `Users` dan `Reals`.
+folder `data` sebagai populasi awal pada tabel `PlainUsers` dan 
+`EncryptedUsers`.
 
 Dan pada saat kita membuat aplikasi, sudah disediakan `views`-nya oleh
 `UI/UX Designer` kita, dan diketahui endpoint aplikasi kita adalah sebagai
@@ -52,28 +53,29 @@ Cara untuk membuat projek berbasis Express dan sequelize ini adalah dengan:
 1. Menginisialisasi `sequelize` dengan `npx seqeuelize-cli init`
 1. Melakukan konfig database dengan meng-*edit* `config/config.json`
 1. Membuat database dengan `npx sequelize-cli db:create`
-1. Membuat tabel dan model `Users` dengan 
-   `npx sequelize-cli model:generate --name User \` 
+1. Membuat tabel dan model `PlainUsers` dengan 
+   `npx sequelize-cli model:generate --name PlainUser \` 
    `--attributes uname:String,upass:String`
-1. Membuat tabel dan model `Reals` dengan 
-   `npx sequelize-cli model:generate --name Real \` 
+1. Membuat tabel dan model `EncryptedUser` dengan 
+   `npx sequelize-cli model:generate --name EncryptedUser \` 
    `--attributes uname:String,upass:String`
 1. Jangan lupa untuk tidak menggunakan `async` dan `await` terlebih dahulu 
    pada file yang terbentuk di folder `migrations` supaya dapat mengerti 
    `Promise` lebih lanjut
 1. Jalankan pembuatan tabel dengan `npx sequelize-cli db:migrate`
 1. Membuat file seed untuk `populate` data awal dengan 
-   `npx sequelize-cli seed:generate --name initial-populate-user` dan
-   `npx sequelize-cli seed:generate --name initial-populate-real`
-1. Membaca file `data/user.json` dan melakukan `populate` tabel `Users`.
+   `npx sequelize-cli seed:generate --name initial-populate-plain` dan
+   `npx sequelize-cli seed:generate --name initial-populate-encrypted`
+1. Membaca file `data/plain.json` dan melakukan `populate` tabel `PlainUsers`.
    Kode dapat dilihat di [Code 01](#code-01)
-1. Membaca file `data/real.json` dan melakukan `populate` tabel `Reals`.
-   Kode dapat dilihat di [Code 02](#code-02)
+1. Membaca file `data/encrypted.json` dan melakukan `populate` tabel 
+   `EncryptedUsers`. Kode dapat dilihat di [Code 02](#code-02)
 1. Jalankan `populate` data dengan `npx sequelize-cli db:seed:all`
 1. Membuat file `main` dari aplikasi (umumnya bernama `app.js` pada Express),
    Untuk sekarang kita akan mengabaikan `bila sudah login` atau 
-   `bila belum login`nya terlebih dahulu dan masih menggunakan tabel `Users`
-   saja. kode untuk `app.js` ini dapat dilihat pada [Code 03](#code-03)
+   `bila belum login`nya terlebih dahulu dan masih menggunakan tabel 
+   `PlainUsers` saja. kode untuk `app.js` ini dapat dilihat pada 
+   [Code 03](#code-03)
 
 ### Code 01
 ```javascript
@@ -82,7 +84,7 @@ const fs = require('fs');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    let data = JSON.parse(fs.readFileSync('./data/user.json', 'utf8'));
+    let data = JSON.parse(fs.readFileSync('./data/plain.json', 'utf8'));
 
     data = data.map(elem => {
       elem.createdAt = new Date();
@@ -91,11 +93,11 @@ module.exports = {
       return elem;
     });
 
-    return queryInterface.bulkInsert('Users', data, {});
+    return queryInterface.bulkInsert('PlainUsers', data, {});
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('PlainUsers', null, {});
   }
 };
 ```
@@ -107,7 +109,7 @@ const fs = require('fs');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    let data = JSON.parse(fs.readFileSync('./data/real.json', 'utf8'));
+    let data = JSON.parse(fs.readFileSync('./data/encrypted.json', 'utf8'));
 
     data = data.map(elem => {
       elem.createdAt = new Date();
@@ -116,11 +118,11 @@ module.exports = {
       return elem;
     });
 
-    return queryInterface.bulkInsert('Reals', data, {});
+    return queryInterface.bulkInsert('EncryptedUsers', data, {});
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Reals', null, {});
+    return queryInterface.bulkDelete('EncryptedUsers', null, {});
   }
 };
 ```
@@ -131,7 +133,7 @@ const express = require('express');
 const app = express();
 
 
-const { User } = require('./models/index.js');
+const { PlainUser } = require('./models/index.js');
 
 const PORT = 3000;
 
@@ -170,7 +172,7 @@ app.post('/login', (req, res) => {
   //   form > input > id = user_name, name = user_name
   //   form > input > id = user_pass, name = user_pass
 
-  User.findOne({
+  PlainUser.findOne({
     where: {
       uname: req.body.user_name,
       upass: req.body.user_pass
@@ -284,7 +286,7 @@ const app = express();
 // Tambahkan ini untuk menggunakan session
 const session = require('express-session');
 
-const { User } = require('./models/index.js');
+const { PlainUser } = require('./models/index.js');
 
 const PORT = 3000;
 
@@ -361,7 +363,7 @@ app.post('/login', (req, res) => {
   //   form > input > id = user_name, name = user_name
   //   form > input > id = user_pass, name = user_pass
 
-  User.findOne({
+  PlainUser.findOne({
     where: {
       uname: req.body.user_name,
       upass: req.body.user_pass
@@ -434,8 +436,9 @@ Disini tidak akan dijelaskan apa itu dan cara kerjanya bagaimana yah, karena
 Kita cukup mengerti bahwa bcrypt ini bersifat `hash` atau satu arah saja.
 
 Pada kode yang sudah kita buat, kita akan:
-* Menggunakan tabel `Reals` yang passwordnya sudah di-`hashed` dengan `bcrypt`
-* Mencoba login dengan tabel `Reals` tersebut.
+* Menggunakan tabel `EncryptedUsers` yang passwordnya sudah di-`hashed` 
+  dengan `bcrypt`
+* Mencoba login dengan tabel `EncryptedUsers` tersebut.
 
 Cara menggunakan BCrypt adalah:
 1. Matikan dulu aplikasi yang sedang dibuat apabila menggunakan `nodemon`
@@ -451,8 +454,8 @@ const session = require('express-session');
 // Import bcrypt
 const bcrypt = require('bcryptjs');
 
-// Import Reals
-const { User, Real } = require('./models/index.js');
+// Import EncryptedUsers
+const { PlainUser, EncryptedUser } = require('./models/index.js');
 
 // Inisialisasi bcrypt
 // Membutuhkan ronde salt-ing
@@ -474,7 +477,7 @@ app.post('/login', (req, res) => {
   // Kita akan melakukan SELECT untuk mengambil hashnya
   // dan meng-compare hashnya dengan yang dibuat oleh user ini.
 
-  Real.findOne({
+  EncryptedUser.findOne({
     where: {
       uname: req.body.user_name,
       // Where upassnya tidak digunakan

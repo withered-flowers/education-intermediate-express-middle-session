@@ -421,7 +421,7 @@ dalam bentuk apa adanya loh !
 Hal ini adalah sesuatu yang `forbidden` dan kita harus memperbaiki hal tersebut.
 
 Untungnya dalam nodejs ini ada sebuah modul yang dapat menyelematkan kita loh !
-modul itu bernama `bcrypt` !
+modul itu bernama `bcryptjs` !
 
 ## BCrypt
 Bcrypt merupakan sebuah fungsi untuk mempersulit *hekel* dalam menebak konten
@@ -439,8 +439,8 @@ Pada kode yang sudah kita buat, kita akan:
 
 Cara menggunakan BCrypt adalah:
 1. Matikan dulu aplikasi yang sedang dibuat apabila menggunakan `nodemon`
-1. Baca dokumentasi `bcrypt` di [sini](https://www.npmjs.com/package/bcrypt)
-1. Install modul `bcrypt` dengan `npm install bcrypt`
+1. Baca dokumentasi `bcryptjs` di [sini](https://www.npmjs.com/package/bcryptjs)
+1. Install modul `bcryptjs` dengan `npm install bcryptjs`
 1. Implementasikan dalam kode kita, dapat dilihat pada [Code 05](#code-05)
 
 ### Code 05
@@ -449,7 +449,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 // Import bcrypt
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Import Reals
 const { User, Real } = require('./models/index.js');
@@ -513,7 +513,7 @@ app.post('/login', (req, res) => {
 ```
 
 Nah, sampai di sini artinya kita sudah berhasil menuliskan kode kita dengan
-menggunakan `session` dan password `hashed` with `bcrypt`.
+menggunakan `session` dan password `hashed` with `bcryptjs`.
 
 Keep Learning !
 

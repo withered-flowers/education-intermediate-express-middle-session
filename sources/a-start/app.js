@@ -1,3 +1,12 @@
+// 2 Tabel `PlainUsers` dan `EncryptedUsers`
+/*
+| Kolom | Tipe         | Info                       |
+|:------|:-------------|:---------------------------|
+| id    | INTEGER      | PRIMARY KEY AUTO INCREMENT |
+| uname | VARCHAR(255) | NOT NULL                   |
+| upass | VARCHAR(255) | NOT NULL                   | 
+*/
+
 const express = require('express');
 const app = express();
 
